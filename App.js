@@ -43,7 +43,7 @@ const App = () => {
   ]);
 
     return (
-       
+      <GestureHandlerRootView style={{ flex: 1 }} >
       <RootSiblingParent>
         <StoreProvider store={store}>
           <PaperProvider>
@@ -52,6 +52,7 @@ const App = () => {
           </PaperProvider>
       </StoreProvider>
      </RootSiblingParent>
+     </GestureHandlerRootView>
     );
 };
 

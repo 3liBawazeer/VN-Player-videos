@@ -63,6 +63,8 @@ const RenderFoldersAndVideos = ({data,navigation,onRefresh,refreshing,currentPat
         }
     };
 
+    console.log(data);
+
   return (<>
   {/* <Button title="get" onPress={()=>{
     console.log(data);

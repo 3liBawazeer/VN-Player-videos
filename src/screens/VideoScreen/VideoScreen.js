@@ -227,11 +227,11 @@ const VideoScreen = ({navigation, route}) => {
       // onPress={lock?null:()=>{setshowTool(true)}}
        >
        <View style={{width:"100%",height:"100%",flexDirection:"row",position:"absolute",zIndex:11}} >
-        <TapGestureHandler waitFor={TapRefRight1}   onActivated={singleTab} >
-                        <TapGestureHandler numberOfTaps={2} onActivated={doubleTabincrease} ref={TapRefRight1} >
-                          <View style={{flex:1,zIndex:1}} />
-                        </TapGestureHandler>
-          </TapGestureHandler>
+        {/* <TapGestureHandler waitFor={TapRefRight1}   onActivated={singleTab} >
+                        <TapGestureHandler numberOfTaps={2}  onActivated={doubleTabincrease} ref={TapRefRight1} > */}
+                          <TouchableOpacity style={{flex:1,zIndex:1}}    />
+                        {/* </TapGestureHandler>
+          </TapGestureHandler> */}
           <TapGestureHandler waitFor={TapRefLeft1}   onActivated={singleTab} >
                           <TapGestureHandler numberOfTaps={2} onActivated={doubleTabdecrease} ref={TapRefLeft1} >
                           <View style={{flex:1,zIndex:1}} />
@@ -409,7 +409,7 @@ const VideoScreen = ({navigation, route}) => {
 
                     <View style={{flex: 1,flexDirection:"row",}} >
                       <TapGestureHandler waitFor={TapRefLeft}   onActivated={singleTab} >
-                                    <TapGestureHandler numberOfTaps={2} onActivated={doubleTabincrease} ref={TapRefLeft} >
+                                    <TapGestureHandler numberOfTaps={2} onActivated={doubleTabincrease}  ref={TapRefLeft} >
                                     <View style={{flex:1}} />
                                     </TapGestureHandler>
                       </TapGestureHandler>

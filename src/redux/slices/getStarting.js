@@ -33,7 +33,7 @@ export const getStartingAsync = createAsyncThunk(
           groupName: Item.node.group_name,
           filename: videoName ,
           fileSize: Item.node.image.fileSize,
-          duration: Item.node.image.playableDuration,
+          duration: Item.node.image.playableDuration ,
           fileExtension: videoExtention,
           path: Item.node.image.uri,
           type: Item.node.type,
@@ -46,6 +46,7 @@ export const getStartingAsync = createAsyncThunk(
     };
 
     const videos  =  await getALLVideos();
+    console.log(videos);
     
     let arr = [...videos]
     

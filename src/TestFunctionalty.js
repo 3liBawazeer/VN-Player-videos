@@ -24,17 +24,32 @@ import Draggable from 'react-native-draggable';
 import { TapGestureHandler } from "react-native-gesture-handler"
 import { PermissionsAndroid } from 'react-native';
 import { getFoldersHome } from './screens/home/mainFunctions';
+import {GestureDetector,Gesture} from 'react-native-gesture-handler';
+import Animated, { Extrapolation, interpolate, useAnimatedProps, useSharedValue } from 'react-native-reanimated';
+import Video from 'react-native-video';
+import Slider from '@react-native-community/slider';
 
 const {height, width} = Dimensions.get('window');
 
+function secondsToHms(d) {
+  d = Number(d);
+  var h = Math.floor(d / 3600);
+  var m = Math.floor((d % 3600) / 60);
+  var s = Math.floor((d % 3600) % 60);
+  var hDisplay = h == 0 ? '' : h + ':';
+  var mDisplay = m < 9? "0"+ m + ':' : m + ':';
+  var sDisplay = s;
+
+  return hDisplay + mDisplay + sDisplay;
+}
+
+
+const VideoAnimated = Animated.createAnimatedComponent(Video)
+
 const TestFunctionalty = () => {
 
-  const dispach = useDispatch()
-  const {videosAlbums} = useSelector(o=>o.storageData)
-
-  useEffect(()=>{
-    dispach(getStartingAsync())
-  },[])
+  const videoRef = useRef();
+  
 
     const getALLVideosFunction = async () => {
       
@@ -328,21 +343,104 @@ const TestFunctionalty = () => {
       }
     };
 
+    
+    
+
     let volum = 0
+
+
+    const innerBarWidth = useSharedValue(0);
+    const startWidth = useSharedValue(0);
+    const startSeek = useSharedValue(true);
+    const volBarPressed = useSharedValue(false);
+
+    const currentTim = useSharedValue(0)
+
+    const [durationy, setdurationy] = useState(0)
+    const [currentTimee, setcurrentTimee] = useState(0)
+    // const [startSeek, setstartSeek] = useState(false);
+    const [pauseded, setpauseded] = useState(true);
+
+
+    
+
+
+    const pan = Gesture.Pan()
+    .onBegin(()=>{})
+    .onUpdate((e)=>{
+      'worklet';
+    })
+    .onFinalize(()=>{
+    })
+    const barProps = useAnimatedProps(()=>({
+      width:`${interpolate(innerBarWidth.value,[0,500],[0,100],{
+            extrapolateLeft:Extrapolation.CLAMP,
+            extrapolateRight:Extrapolation.CLAMP,
+          })}%`
+    }))
+    
+
   return (
-    <View style={{flex:1,backgroundColor:"#08d",alignItems:"center",justifyContent:"center"}} >
-      <Button title='Get' onPress={() =>{
-        getFoldersHome("/storage/emulated/0/").then((data)=>{
-          // console.log(data);
-        })
-      }} ></Button>
+    <View style={{flex:1,backgroundColor:"#08d",alignItems:"center",justifyContent:"center",}} >
+      <View style={{height:20,backgroundColor:"#aaa",width:"50%",marginBottom:10,borderRadius:10,flexDirection:"row-reverse"}} >
+      <Animated.View  animatedProps={barProps}  style={[{height:20,backgroundColor:"#fff",marginBottom:10,borderRadius:10,}]} />
+      </View>
+
+      <GestureDetector gesture={pan} >
+      <VideoAnimated
+          source={{uri: 'file:///storage/15E7-2011/Movies/_16 Introduction To HTML - Part2 _ CyberSecurity(360P).mp4' }}
+          ref={videoRef} // Store reference
+          onLoad={({duration}) =>{ setdurationy(duration) }}
+          // onProgress={({currentTime}) => { setcurrentTimee(currentTime)  } }
+          resizeMode="contain"
+          fullscreenAutorotate
+          // rate={rate}
+          controls
+          seek={100}
+          repeat
+          // onError={(err) => {Alert.alert(err)}} // Callback when video cannot be loaded
+          style={styles.backgroundVideo}
+          paused={true}
+          mixWithOthers="duck"
+        />
+        </GestureDetector>
+        <View
+                  style={{
+                    // backgroundColor:"#fff",
+                    padding:20,
+                    width:"100%",
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginHorizontal: 10,
+                  }}>
+                  <Text style={{color: '#fff', fontSize: 10}}>
+                    {secondsToHms(durationy)}
+                  </Text>
+                  <Text style={{color: '#fff', fontSize: 10}}>
+                    {secondsToHms(currentTimee)}
+                  </Text>
+                </View>
+                 <View>
+                 
+                </View>
+                <Button title='dddddd' onPress={()=>{
+                  console.log(currentTimee + 5);
+                  videoRef.current.seek(1000)
+                }} ></Button>
     </View>
   )
 }
 
 export default TestFunctionalty
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  backgroundVideo: {
+    width: '100%',
+    height:200,
+    backgroundColor:"#fff"
+  },
+})
 
 
 // 'video/3gpp',

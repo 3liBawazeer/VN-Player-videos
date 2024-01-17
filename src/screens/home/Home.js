@@ -195,6 +195,8 @@ const Home = ({navigation}) => {
         });
       });
 
+      console.log(foldersWithYourVideos,"ssssssssssssssssssssssssssss");
+
       // يجيب عدد الفيديوهات والمفات داخل كل ملف
       const filterVideosAndFolders = foldersWithYourVideos.map((im, ix) => {
         let fol = [];
